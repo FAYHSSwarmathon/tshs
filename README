@@ -1,0 +1,6 @@
+bot.nlogo is the NetLogo source code alone.
+
+bot-netlogo.nlogo is the NetLogo file containing GUI elements.
+
+The former is used to create the latter, but I have not provided the
+script used to do so.
