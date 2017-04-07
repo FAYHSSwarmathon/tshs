@@ -6,15 +6,13 @@
 ;; We load parkingLot.jpg, so we need this lib
 extensions[bitmap]
 
-globals [didEnd]
-
 ;; Defaults. I edit in GNU Emacs, so I need these values listed
 ;; so I can duplicate them in NetLogo once I want to test my code.
 
 ;; singleRocks 50
 ;; clusterRocks 30
 ;; largeClusterRocks 5
-;; numberOfRobots 10
+;; numberOfRobots 6
 
 breed [robots robot]
 
@@ -145,34 +143,9 @@ to make-base
 	]
 end
 
-to main-loop
-	ifelse (not any? patches with [pcolor = yellow])[
-		if not didEnd[
-			show (word "Ended at " ticks " ticks")
-			set didEnd true
-		]
-		
-		let numReturningRobots 0
-
-		ask robots[
-			set phase 3
-			set state 1
-			robot-return-to-base
-
-			ifelse (pxcor = 0 and pycor = 0)[
-				if shape = "robot with rock"[
-					set shape "robot"
-				]
-			][
-				set numReturningRobots numReturningRobots + 1
-			]
-		]
-
-		if numReturningRobots = 0[
-			stop
-		]
-	][
-		ask robots [do-robot-control]
+to robot-control
+	ask robots[
+		do-robot-control
 	]
 
 	tick
