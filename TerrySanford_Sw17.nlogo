@@ -165,14 +165,14 @@ to robot-process-list
 
 	ask base[
 		ifelse not empty? storedCoords[
-			let loc first storedCoords
+			let loc last storedCoords
 
 			ask myself[
 				set targX first loc
 				set targY last loc
 			]
 
-			set storedCoords but-first storedCoords
+			set storedCoords but-last storedCoords
 
 			ask myself[
 				set state 2
