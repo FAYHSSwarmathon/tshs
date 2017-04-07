@@ -6,15 +6,13 @@
 ;; We load parkingLot.jpg, so we need this lib
 extensions[bitmap]
 
-globals [didEnd]
-
 ;; Defaults. I edit in GNU Emacs, so I need these values listed
 ;; so I can duplicate them in NetLogo once I want to test my code.
 
 ;; singleRocks 50
 ;; clusterRocks 30
 ;; largeClusterRocks 5
-;; numberOfRobots 10
+;; numberOfRobots 6
 
 breed [robots robot]
 
@@ -51,8 +49,6 @@ to setup
 	cp
 	reset-ticks
 
-	set didEnd false
-
 	bitmap:copy-to-pcolors bitmap:import "parkingLot.jpg" true
 
 	make-robots
@@ -67,7 +63,7 @@ to make-robots
 		set size 5
 		set shape "robot"
 		set color red
-
+		
 		set state 0
 
 		set phase 0
@@ -85,7 +81,6 @@ end
 to make-rocks
 	ask patches[
 		set baseColor pcolor
-		set storedCoords []
 	]
 
 	make-random
@@ -145,34 +140,9 @@ to make-base
 	]
 end
 
-to main-loop
-	ifelse (not any? patches with [pcolor = yellow])[
-		if not didEnd[
-			show (word "Ended at " ticks " ticks")
-			set didEnd true
-		]
-
-		let numReturningRobots 0
-
-		ask robots[
-			set phase 3
-			set state 1
-			robot-return-to-base
-
-			ifelse (pxcor = 0 and pycor = 0)[
-				if shape = "robot with rock"[
-					set shape "robot"
-				]
-			][
-				set numReturningRobots numReturningRobots + 1
-			]
-		]
-
-		if numReturningRobots = 0[
-			stop
-		]
-	][
-		ask robots [do-robot-control]
+to robot-control
+	ask robots[
+		do-robot-control
 	]
 
 	tick
@@ -187,7 +157,7 @@ to-report robot-coord-eq [c1 c2]
 end
 
 to-report get-base
-	report patch-at 0 0
+	report patch 0 0
 end
 
 to robot-process-list
@@ -217,6 +187,7 @@ to robot-process-list
 end
 
 to give-base-coord [x y]
+	print "GIVING BASE COORD"
 	let base get-base
 
 	ask base[
@@ -273,7 +244,7 @@ to robot-return-to-base
 				look-for-rocks
 			]
 
-
+			
 			let base get-base
 
 			ask base[
@@ -294,7 +265,7 @@ to robot-return-to-base
 					]
 				]
 			]
-
+			
 			][
 				if shape = "robot with rock"[
 					set shape "robot"
@@ -380,10 +351,10 @@ NIL
 BUTTON
 89
 11
-207
+215
 45
-main-loop
-main-loop
+robot-control
+robot-control
 T
 1
 T
@@ -414,7 +385,7 @@ singleRocks
 singleRocks
 0
 100
-50.0
+80.0
 5
 1
 NIL
@@ -429,7 +400,7 @@ clusterRocks
 clusterRocks
 0
 50
-30.0
+40.0
 5
 1
 NIL
@@ -444,7 +415,7 @@ numberOfRobots
 numberOfRobots
 0
 10
-10.0
+6.0
 1
 1
 NIL
@@ -459,7 +430,7 @@ largeClusterRocks
 largeClusterRocks
 0
 20
-5.0
+9.0
 1
 1
 NIL
@@ -858,7 +829,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0
+NetLogo 6.0.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

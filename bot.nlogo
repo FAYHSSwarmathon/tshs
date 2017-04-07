@@ -81,7 +81,6 @@ end
 to make-rocks
 	ask patches[
 		set baseColor pcolor
-		set storedCoords []
 	]
 
 	make-random
@@ -158,7 +157,7 @@ to-report robot-coord-eq [c1 c2]
 end
 
 to-report get-base
-	report patch-at 0 0
+	report patch 0 0
 end
 
 to robot-process-list
