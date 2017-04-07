@@ -48,8 +48,6 @@ to setup
 	ca
 	cp
 	reset-ticks
-
-	set didEnd false
    
 	bitmap:copy-to-pcolors bitmap:import "parkingLot.jpg" true
 
